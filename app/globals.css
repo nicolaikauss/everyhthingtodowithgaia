@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  /* Solid graphite (tokens, shadcn-style defaults) */
+  --background: #0f1318;
+  --primary: rgba(245, 242, 237, 0.18);
+  /* Matches Tailwind `bg-graphite/45` over `bg-night` (composite surface) */
+  --surface-graphite-45: color-mix(in srgb, #0f1318 45%, #080a0d 55%);
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-night text-ink antialiased;
+}
+
+.hero-surface {
+  background:
+    radial-gradient(80% 60% at 84% 22%, rgba(68, 80, 95, 0.16), transparent 70%),
+    radial-gradient(42% 32% at 15% 70%, rgba(95, 105, 117, 0.12), transparent 75%),
+    linear-gradient(180deg, #090c10 0%, #07090c 100%);
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(to right, rgba(245, 242, 237, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(245, 242, 237, 0.07) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(circle at 45% 40%, black, transparent 82%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Sentosa-style offers: collapse scroll-scrub strip to a static stack */
+  .sentosa-offers-track {
+    height: auto !important;
+  }
+
+  .sentosa-offers-camera {
+    position: relative !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .sentosa-offers-frame {
+    transform: none !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .sentosa-offers-panel {
+    width: 100% !important;
+    max-width: 42rem !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    justify-content: flex-start !important;
+    border-left-width: 0 !important;
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+}

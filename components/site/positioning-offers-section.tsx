@@ -102,15 +102,24 @@ export function PositioningOffersSection() {
               draggable={false}
               className="pointer-events-none absolute inset-0 block h-full w-full max-w-none object-cover object-center outline-none ring-0"
               style={{
-                objectPosition: "50% 44%",
-                transform: "scale(1.04)",
+                objectPosition: "50% 68%",
+                transform: "scale(1.12)",
                 transformOrigin: "center center",
-                backfaceVisibility: "hidden"
+                backfaceVisibility: "hidden",
+                filter: "brightness(0.85) saturate(0.92)"
               }}
             />
           </div>
           <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[rgba(5,7,10,0.78)] via-[rgba(7,9,12,0.62)] to-[rgba(5,6,9,0.88)]"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[rgba(5,7,10,0.72)] via-[rgba(7,9,12,0.4)] to-[rgba(5,6,9,0.86)]"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-x-0 top-0 h-[16%] bg-gradient-to-b from-black via-[rgba(5,6,9,0.65)] to-transparent"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_55%_at_100%_0%,rgba(5,7,10,0.5),transparent_62%)]"
             aria-hidden
           />
 

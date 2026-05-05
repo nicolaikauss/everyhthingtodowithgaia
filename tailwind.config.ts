@@ -12,13 +12,49 @@ const config: Config = {
         serif: ["Cormorant Garamond", "ui-serif", "Georgia", "serif"]
       },
       colors: {
-        ink: "#f5f2ed",
+        ink: {
+          DEFAULT: "#f5f2ed",
+          92: "rgba(245, 242, 237, 0.92)",
+          78: "rgba(245, 242, 237, 0.78)",
+          72: "rgba(245, 242, 237, 0.72)",
+          68: "rgba(245, 242, 237, 0.68)",
+          64: "rgba(245, 242, 237, 0.64)",
+          58: "rgba(245, 242, 237, 0.58)",
+          55: "rgba(245, 242, 237, 0.55)",
+          52: "rgba(245, 242, 237, 0.52)",
+          48: "rgba(245, 242, 237, 0.48)",
+          45: "rgba(245, 242, 237, 0.45)",
+          42: "rgba(245, 242, 237, 0.42)",
+          40: "rgba(245, 242, 237, 0.40)",
+          38: "rgba(245, 242, 237, 0.38)",
+          35: "rgba(245, 242, 237, 0.35)",
+          22: "rgba(245, 242, 237, 0.22)",
+          18: "rgba(245, 242, 237, 0.18)",
+          16: "rgba(245, 242, 237, 0.16)",
+          14: "rgba(245, 242, 237, 0.14)",
+          12: "rgba(245, 242, 237, 0.12)",
+          10: "rgba(245, 242, 237, 0.10)",
+          8: "rgba(245, 242, 237, 0.08)"
+        },
         night: "#080a0d",
-        graphite: "#0f1318",
+        graphite: {
+          DEFAULT: "#0f1318",
+          50: "rgba(15, 19, 24, 0.5)",
+          45: "rgba(15, 19, 24, 0.45)",
+          25: "rgba(15, 19, 24, 0.25)"
+        },
         line: "rgba(245, 242, 237, 0.22)"
       },
+      spacing: {
+        "safe-t": "env(safe-area-inset-top)",
+        "safe-b": "env(safe-area-inset-bottom)",
+        "safe-l": "env(safe-area-inset-left)",
+        "safe-r": "env(safe-area-inset-right)"
+      },
       boxShadow: {
-        "hero-soft": "0 30px 80px rgba(0, 0, 0, 0.35)"
+        "hero-soft": "0 30px 80px rgba(0, 0, 0, 0.35)",
+        bento:
+          "0 1px 0 rgba(245, 242, 237, 0.04) inset, 0 12px 40px rgba(0, 0, 0, 0.35)"
       },
       animation: {
         "slow-fade": "slowFade 1.4s ease-out forwards",

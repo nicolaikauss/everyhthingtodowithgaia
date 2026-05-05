@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
-import { Navbar } from "@/components/site/navbar";
-import { SiteFooter } from "@/components/site/site-footer";
+import { Navbar } from "@/components/layout/navbar";
+import { RouteIntro } from "@/components/layout/route-intro";
+import { SiteFooter } from "@/components/layout/site-footer";
 
 import "./globals.css";
 
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-night text-ink antialiased">
+        <RouteIntro />
         <Navbar />
         <main>{children}</main>
         <SiteFooter />

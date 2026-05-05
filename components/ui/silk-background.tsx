@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Lightweight animated noise canvas for section backgrounds. Caps DPR and coarser sampling on small widths for mobile perf.
+ */
+
 import { useEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils";
@@ -24,6 +28,8 @@ function paintFrame(
   const speed = reduceMotion ? 0 : 0.02;
   const scale = 2;
   const noiseIntensity = 0.8;
+  const step =
+    typeof window !== "undefined" && window.innerWidth < 480 ? 3 : 2;
 
   const { width, height } = canvas;
 
@@ -39,8 +45,8 @@ function paintFrame(
   const data = imageData.data;
   const t = reduceMotion ? 0 : time;
 
-  for (let x = 0; x < width; x += 2) {
-    for (let y = 0; y < height; y += 2) {
+  for (let x = 0; x < width; x += step) {
+    for (let y = 0; y < height; y += step) {
       const u = (x / width) * scale;
       const v = (y / height) * scale;
 
@@ -69,12 +75,18 @@ function paintFrame(
       const b = base;
       const a = 255;
 
-      const index = (y * width + x) * 4;
-      if (index < data.length) {
-        data[index] = r;
-        data[index + 1] = g;
-        data[index + 2] = b;
-        data[index + 3] = a;
+      for (let dx = 0; dx < step && x + dx < width; dx += 1) {
+        for (let dy = 0; dy < step && y + dy < height; dy += 1) {
+          const px = x + dx;
+          const py = y + dy;
+          const index = (py * width + px) * 4;
+          if (index < data.length) {
+            data[index] = r;
+            data[index + 1] = g;
+            data[index + 2] = b;
+            data[index + 3] = a;
+          }
+        }
       }
     }
   }
@@ -152,8 +164,11 @@ export function SilkBackground({ className }: SilkBackgroundProps) {
       const parent = canvas.parentElement;
       const w = parent?.clientWidth ?? window.innerWidth;
       const h = parent?.clientHeight ?? window.innerHeight;
-      canvas.width = Math.max(1, Math.floor(w));
-      canvas.height = Math.max(1, Math.floor(h));
+      const dprCap = Math.min(window.devicePixelRatio ?? 1, 1.5);
+      canvas.style.width = `${Math.max(1, Math.floor(w))}px`;
+      canvas.style.height = `${Math.max(1, Math.floor(h))}px`;
+      canvas.width = Math.max(1, Math.floor(w * dprCap));
+      canvas.height = Math.max(1, Math.floor(h * dprCap));
       paintFrame(canvas, ctx, time, reduceMotionRef.current);
     };
 

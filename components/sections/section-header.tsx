@@ -1,3 +1,6 @@
+/**
+ * Shared stacked heading pattern (small label, serif title, supporting paragraph).
+ */
 export function SectionHeader({
   label,
   title,

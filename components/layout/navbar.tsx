@@ -1,16 +1,21 @@
 "use client";
 
+/**
+ * Fixed primary navigation with scroll-linked backdrop blur and a mobile drawer.
+ * Safe-area padding keeps the mark clear of the notch; links meet a 44px minimum tap height.
+ */
+
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { brandAssets } from "@/lib/site-content";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "Home", href: "/" },
-  { label: "Approach", href: "/approach" },
-  { label: "Services", href: "/services" },
-  { label: "About", href: "/about" }
+  { label: "Portfolio", href: "/portfolio" }
 ] as const;
 
 const contactHref = "/#contact";
@@ -101,12 +106,20 @@ export function Navbar() {
           : "border-transparent bg-transparent"
       )}
     >
-      <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center justify-between px-6 sm:h-[4.6rem] sm:px-10 lg:px-16">
+      <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center justify-between px-6 pt-safe-t sm:h-[4.6rem] sm:px-10 md:pt-0 lg:px-16">
         <Link
           href="/"
-          className="rounded-sm font-serif text-lg tracking-[0.08em] text-ink transition-colors hover:text-ink/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-2 focus-visible:ring-offset-night sm:text-[1.45rem]"
+          aria-label="Gaia Capital"
+          className="inline-flex min-h-11 items-center rounded-sm transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-2 focus-visible:ring-offset-night"
         >
-          Gaia Capital
+          <Image
+            src={brandAssets.capitalMarkLight}
+            alt="Gaia Capital"
+            width={260}
+            height={72}
+            priority
+            className="h-auto w-[172px] sm:w-[198px]"
+          />
         </Link>
 
         <nav className="hidden items-center gap-9 md:flex" aria-label="Primary">
@@ -121,7 +134,7 @@ export function Navbar() {
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "relative rounded-sm px-1 py-2 text-[0.68rem] uppercase tracking-[0.14em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-2 focus-visible:ring-offset-night",
+                  "relative inline-flex min-h-11 items-center rounded-sm px-1 py-2 text-[0.68rem] uppercase tracking-[0.14em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-2 focus-visible:ring-offset-night",
                   isActive ? "text-ink" : "text-ink/78 hover:text-ink"
                 )}
               >
@@ -140,7 +153,7 @@ export function Navbar() {
             href={contactHref}
             aria-current={contactNavActive ? "page" : undefined}
             className={cn(
-              "group relative inline-flex items-center gap-2 rounded-sm px-1 py-2 text-[0.68rem] uppercase tracking-[0.14em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-2 focus-visible:ring-offset-night",
+              "group relative inline-flex min-h-11 items-center gap-2 rounded-sm px-1 py-2 text-[0.68rem] uppercase tracking-[0.14em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-2 focus-visible:ring-offset-night",
               contactNavActive ? "text-ink" : "text-ink/84 hover:text-ink"
             )}
           >
@@ -195,7 +208,10 @@ export function Navbar() {
           isMobileOpen ? "max-h-[28rem] opacity-100" : "max-h-0 opacity-0"
         )}
       >
-        <nav className="mx-auto flex w-full max-w-[1440px] flex-col px-6 py-6 sm:px-10" aria-label="Mobile primary">
+        <nav
+          className="mx-auto flex w-full max-w-[1440px] flex-col px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-6 sm:px-10"
+          aria-label="Mobile primary"
+        >
           {navItems.map((item, index) => {
             const routeActive = isRouteActive(pathname, item.href);
             const isActive =
@@ -208,7 +224,7 @@ export function Navbar() {
                 onClick={() => setIsMobileOpen(false)}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "rounded-sm py-3 text-xs uppercase tracking-[0.14em] transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-2 focus-visible:ring-offset-night",
+                  "flex min-h-11 items-center rounded-sm py-3 text-xs uppercase tracking-[0.14em] transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-2 focus-visible:ring-offset-night",
                   isMobileOpen ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0",
                   isActive ? "text-ink" : "text-ink/84 hover:text-ink"
                 )}
@@ -225,7 +241,7 @@ export function Navbar() {
             onClick={() => setIsMobileOpen(false)}
             aria-current={contactNavActive ? "page" : undefined}
             className={cn(
-              "mt-3 w-fit rounded-sm py-3 text-xs uppercase tracking-[0.14em] transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-2 focus-visible:ring-offset-night",
+              "mt-3 flex min-h-11 w-fit items-center rounded-sm py-3 text-xs uppercase tracking-[0.14em] transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-2 focus-visible:ring-offset-night",
               isMobileOpen ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0",
               contactNavActive ? "text-ink" : "text-ink/88 hover:text-ink"
             )}

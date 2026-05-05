@@ -1,5 +1,8 @@
-import { SectionHeader } from "@/components/site/section-header";
-import { differentiators } from "@/lib/site-content";
+/**
+ * “Why Gaia” narrative section with three differentiator cards.
+ */
+import { SectionHeader } from "./section-header";
+import { differentiators, whyGaiaSectionCopy } from "@/lib/site-content";
 
 export function WhyGaiaSection() {
   return (
@@ -7,22 +10,17 @@ export function WhyGaiaSection() {
       id="why-gaia"
       className="relative isolate overflow-hidden bg-graphite/25 py-28 sm:py-32 lg:py-40"
     >
-      <div
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_50%_30%,rgba(20,24,28,0.85),rgba(8,10,13,0.95))]"
-        aria-hidden
-      />
-
       <div className="relative mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
         <SectionHeader
-          label="Why Gaia"
-          title="Partnership Before Transaction"
-          text="Our differentiators are practical, not performative. We remain selective by design and deliberate in execution."
+          label={whyGaiaSectionCopy.label}
+          title={whyGaiaSectionCopy.title}
+          text={whyGaiaSectionCopy.text}
         />
 
         <div className="mt-16 grid gap-5 md:grid-cols-3">
           {differentiators.map((item, index) => (
             <article
-              key={item.text}
+              key={item.headline}
               className="flex h-full flex-col rounded-sm border border-white/14 bg-night/35 p-7 shadow-hero-soft sm:p-9"
             >
               <p className="font-sans text-[0.68rem] uppercase tracking-[0.18em] text-ink/48">

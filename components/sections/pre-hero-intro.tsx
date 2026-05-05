@@ -1,12 +1,20 @@
 "use client";
 
+/**
+ * Full-screen brand beat before the hero loads; preloads hero + logo then dismisses.
+ * Decorative only (`aria-hidden` on root); respects reduced motion for the exit transition.
+ */
+
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+
+import { brandAssets, homeCopy } from "@/lib/site-content";
 
 type IntroPhase = "visible" | "exiting" | "hidden";
 
 type PreHeroIntroProps = {
-  heroImageUrl: string;
+  /** Preloaded when set (home hero background); omitted on other routes. */
+  heroImageUrl?: string;
   logoSrc?: string;
 };
 
@@ -59,7 +67,7 @@ function waitForNextPaint() {
 
 export function PreHeroIntro({
   heroImageUrl,
-  logoSrc = "/gaia-logo.png"
+  logoSrc = brandAssets.capitalMarkLight
 }: PreHeroIntroProps) {
   const [phase, setPhase] = useState<IntroPhase>("visible");
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -103,13 +111,15 @@ export function PreHeroIntro({
 
     const run = async () => {
       const minDuration = wait(MIN_INTRO_MS);
+      const criticalTasks = [
+        waitForFonts(),
+        waitForWindowLoad(),
+        ...(heroImageUrl ? [preloadImage(heroImageUrl)] : []),
+        preloadImage(logoSrc),
+        waitForNextPaint()
+      ];
       const criticalReady = Promise.race([
-        Promise.allSettled([
-          waitForFonts(),
-          waitForWindowLoad(),
-          preloadImage(heroImageUrl),
-          waitForNextPaint()
-        ]),
+        Promise.allSettled(criticalTasks),
         wait(MAX_READY_WAIT_MS)
       ]);
 
@@ -138,7 +148,7 @@ export function PreHeroIntro({
     return () => {
       cancelled = true;
     };
-  }, [heroImageUrl, reducedMotion]);
+  }, [heroImageUrl, logoSrc, reducedMotion]);
 
   if (phase === "hidden") {
     return null;
@@ -147,20 +157,20 @@ export function PreHeroIntro({
   return (
     <div
       aria-hidden
-      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#050608] transition-all duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${overlayClass}`}
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#050608] pl-safe-l pr-safe-r pt-safe-t pb-safe-b transition-all duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${overlayClass}`}
     >
       <div className="pointer-events-none flex flex-col items-center gap-5">
-        <span className="h-px w-16 bg-white/20" />
+        <span className="h-px w-16 bg-white/20" aria-hidden />
         <Image
           src={logoSrc}
-          alt="Gaia Capital"
+          alt={homeCopy.preHeroLogoAlt}
           width={300}
           height={90}
           priority
-          className="h-auto w-[220px] bg-transparent opacity-90 mix-blend-screen sm:w-[280px]"
+          className="h-auto w-[220px] bg-transparent opacity-90 sm:w-[280px]"
         />
         <p className="text-[0.62rem] uppercase tracking-[0.18em] text-[#f5f2ed]/52">
-          Private Advisory
+          {homeCopy.preHeroCaption}
         </p>
       </div>
     </div>

@@ -1,8 +1,10 @@
 /**
- * “Why Gaia” narrative section with three differentiator cards.
+ * “Why Gaia” narrative section with three differentiator cards as a bento grid.
  */
+import { BentoGrid } from "@/components/ui/bento-grid";
+import { whyGaiaBentoSeeds, whyGaiaSectionCopy } from "@/lib/site-content";
+
 import { SectionHeader } from "./section-header";
-import { differentiators, whyGaiaSectionCopy } from "@/lib/site-content";
 
 export function WhyGaiaSection() {
   return (
@@ -17,24 +19,7 @@ export function WhyGaiaSection() {
           text={whyGaiaSectionCopy.text}
         />
 
-        <div className="mt-16 grid gap-5 md:grid-cols-3">
-          {differentiators.map((item, index) => (
-            <article
-              key={item.headline}
-              className="flex h-full flex-col rounded-sm border border-white/14 bg-night/35 p-7 shadow-hero-soft sm:p-9"
-            >
-              <p className="font-sans text-[0.68rem] uppercase tracking-[0.18em] text-ink/48">
-                {String(index + 1).padStart(2, "0")}
-              </p>
-              <h3 className="mt-7 max-w-[20ch] font-serif text-[1.6rem] leading-tight text-ink">
-                {item.headline}
-              </h3>
-              <p className="mt-5 max-w-[36ch] text-sm leading-relaxed text-ink/72">
-                {item.text}
-              </p>
-            </article>
-          ))}
-        </div>
+        <BentoGrid items={whyGaiaBentoSeeds} className="mt-16" />
       </div>
     </section>
   );

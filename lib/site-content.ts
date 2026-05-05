@@ -420,6 +420,18 @@ export const differentiators = z
     }
   ]);
 
+const whyGaiaBentoIconKeys = ["layers", "cpu", "sparkles"] as const satisfies readonly BentoIconKey[];
+
+/** Why Gaia section — mirrors {@link differentiators} as bento tiles (equal columns). */
+export const whyGaiaBentoSeeds: BentoSeedItem[] = differentiators.map((item, index) => ({
+  id: `why-gaia-${index + 1}`,
+  title: item.headline,
+  description: item.text,
+  iconKey: whyGaiaBentoIconKeys[index]!,
+  meta: String(index + 1).padStart(2, "0"),
+  colSpan: 1
+}));
+
 export const aboutPillars = z.array(z.object({ text: z.string() })).parse([
   {
     text:

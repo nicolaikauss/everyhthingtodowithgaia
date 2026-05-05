@@ -100,26 +100,53 @@ export function SilkBackground({ className }: SilkBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | undefined>(undefined);
   const reduceMotionRef = useRef(false);
+  const isVisibleRef = useRef(false);
 
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => {
-      reduceMotionRef.current = mq.matches;
-    };
-    update();
-    mq.addEventListener("change", update);
-
     const canvas = canvasRef.current;
     if (!canvas) {
-      return () => mq.removeEventListener("change", update);
+      return;
     }
 
     const ctx = canvas.getContext("2d");
     if (!ctx) {
-      return () => mq.removeEventListener("change", update);
+      return;
     }
 
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncReduceMotion = () => {
+      reduceMotionRef.current = mq.matches;
+    };
+    syncReduceMotion();
+
     let time = 0;
+
+    const stopLoop = () => {
+      if (animationRef.current !== undefined) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = undefined;
+      }
+    };
+
+    const tick = () => {
+      animationRef.current = undefined;
+      if (reduceMotionRef.current || !isVisibleRef.current || document.hidden) {
+        return;
+      }
+      paintFrame(canvas, ctx, time, false);
+      time += 1;
+      animationRef.current = requestAnimationFrame(tick);
+    };
+
+    const startLoopIfNeeded = () => {
+      if (reduceMotionRef.current || !isVisibleRef.current || document.hidden) {
+        return;
+      }
+      if (animationRef.current !== undefined) {
+        return;
+      }
+      animationRef.current = requestAnimationFrame(tick);
+    };
 
     const resizeCanvas = () => {
       const parent = canvas.parentElement;
@@ -130,30 +157,53 @@ export function SilkBackground({ className }: SilkBackgroundProps) {
       paintFrame(canvas, ctx, time, reduceMotionRef.current);
     };
 
+    const onMqChange = () => {
+      syncReduceMotion();
+      stopLoop();
+      resizeCanvas();
+      if (!reduceMotionRef.current && isVisibleRef.current && !document.hidden) {
+        startLoopIfNeeded();
+      }
+    };
+
+    mq.addEventListener("change", onMqChange);
+
+    const observerRoot = canvas.parentElement ?? canvas;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+        if (entry.isIntersecting && !reduceMotionRef.current && !document.hidden) {
+          startLoopIfNeeded();
+        } else {
+          stopLoop();
+        }
+      },
+      { rootMargin: "200px", threshold: 0 }
+    );
+    observer.observe(observerRoot);
+
+    const onVisibility = () => {
+      if (document.hidden) {
+        stopLoop();
+      } else if (isVisibleRef.current && !reduceMotionRef.current) {
+        startLoopIfNeeded();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    const animate = () => {
-      if (reduceMotionRef.current) {
-        return;
-      }
-      paintFrame(canvas, ctx, time, false);
-      time += 1;
-      animationRef.current = requestAnimationFrame(animate);
-    };
-
-    if (!reduceMotionRef.current) {
-      animationRef.current = requestAnimationFrame(animate);
-    } else {
-      paintFrame(canvas, ctx, 0, true);
+    if (!reduceMotionRef.current && isVisibleRef.current && !document.hidden) {
+      startLoopIfNeeded();
     }
 
     return () => {
-      mq.removeEventListener("change", update);
+      mq.removeEventListener("change", onMqChange);
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("resize", resizeCanvas);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      stopLoop();
     };
   }, []);
 

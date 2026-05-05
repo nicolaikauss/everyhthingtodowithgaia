@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 
 /** Lobby still from `section_ambiances_architecturales.html` (Le Lobby / render_53) — extracted to public */
 export const POSITIONING_LOBBY_BG = "/positioning-lobby-bg.jpg";
@@ -42,44 +42,50 @@ export function PositioningOffersSection() {
   const trackRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const reduceMotionRef = useRef(false);
-  const [scrollX, setScrollX] = useState(0);
 
-  useLayoutEffect(() => {
-    reduceMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }, []);
-
-  const updateScroll = useCallback(() => {
-    if (reduceMotionRef.current) return;
+  const applyScroll = useCallback(() => {
+    if (reduceMotionRef.current) {
+      return;
+    }
     const track = trackRef.current;
     const frame = frameRef.current;
-    if (!track || !frame) return;
+    if (!track || !frame) {
+      return;
+    }
     const rect = track.getBoundingClientRect();
     const range = track.offsetHeight - window.innerHeight;
     if (range <= 0) {
-      setScrollX(0);
+      frame.style.transform = "translate3d(0,0,0)";
       return;
     }
     const p = Math.min(1, Math.max(0, -rect.top / range));
     const maxX = Math.max(0, frame.scrollWidth - window.innerWidth);
-    setScrollX(p * maxX);
+    frame.style.transform = `translate3d(-${p * maxX}px, 0, 0)`;
   }, []);
 
+  useLayoutEffect(() => {
+    reduceMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    applyScroll();
+  }, [applyScroll]);
+
   useEffect(() => {
-    if (reduceMotionRef.current) return;
+    if (reduceMotionRef.current) {
+      return;
+    }
     let raf = 0;
     const onScroll = () => {
       cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(updateScroll);
+      raf = requestAnimationFrame(applyScroll);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
-    updateScroll();
+    applyScroll();
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [updateScroll]);
+  }, [applyScroll]);
 
   return (
     <section id="positioning" className="relative w-full bg-black" aria-labelledby="positioning-heading">
@@ -125,8 +131,7 @@ export function PositioningOffersSection() {
 
           <div
             ref={frameRef}
-            className="sentosa-offers-frame relative flex h-full w-max max-w-none items-stretch will-change-transform"
-            style={{ transform: `translate3d(-${scrollX}px, 0, 0)` }}
+            className="sentosa-offers-frame relative flex h-full w-max max-w-none items-stretch"
           >
             <div className="sentosa-offers-panel flex h-full w-[min(92vw,520px)] flex-none items-center justify-end pr-6 pt-16 sm:w-[min(88vw,560px)] sm:pr-10 sm:pt-20 md:w-[56vw] md:pr-14 lg:pr-20">
               <div className="w-full max-w-[400px] space-y-6 text-left">

@@ -26,6 +26,13 @@ body {
   @apply bg-night text-ink antialiased;
 }
 
+/* Skip layout/paint for long sections until near viewport (pairs with Silk pause + scroll rAF) */
+#why-gaia,
+#contact {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 800px;
+}
+
 .hero-surface {
   background:
     radial-gradient(80% 60% at 84% 22%, rgba(68, 80, 95, 0.16), transparent 70%),

@@ -34,9 +34,9 @@ function paintFrame(
   const { width, height } = canvas;
 
   const gradient = ctx.createLinearGradient(0, 0, width, height);
-  gradient.addColorStop(0, "#14181c");
-  gradient.addColorStop(0.5, "#1a1f24");
-  gradient.addColorStop(1, "#14181c");
+  gradient.addColorStop(0, "#0c0f13");
+  gradient.addColorStop(0.5, "#11151a");
+  gradient.addColorStop(1, "#0c0f13");
 
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, width, height);
@@ -69,7 +69,7 @@ function paintFrame(
       const rnd = noise(x, y);
       const intensity = Math.max(0, pattern - (rnd / 15.0) * noiseIntensity);
 
-      const base = Math.floor(110 * intensity);
+      const base = Math.floor(88 * intensity);
       const r = base;
       const g = base;
       const b = base;
@@ -101,8 +101,8 @@ function paintFrame(
     height / 2,
     Math.max(width, height) / 2
   );
-  overlayGradient.addColorStop(0, "rgba(8, 10, 13, 0.35)");
-  overlayGradient.addColorStop(1, "rgba(8, 10, 13, 0.72)");
+  overlayGradient.addColorStop(0, "rgba(5, 7, 10, 0.5)");
+  overlayGradient.addColorStop(1, "rgba(5, 7, 10, 0.84)");
 
   ctx.fillStyle = overlayGradient;
   ctx.fillRect(0, 0, width, height);

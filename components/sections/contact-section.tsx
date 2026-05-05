@@ -33,11 +33,12 @@ export function ContactSection() {
   return (
     <section
       id="contact"
-      className="relative isolate min-h-[28rem] overflow-hidden border-t border-white/10 bg-graphite/45 py-28 sm:min-h-[32rem] sm:py-32 lg:py-36"
+      className="relative isolate min-h-[28rem] overflow-hidden border-t border-white/10 bg-graphite/70 py-28 sm:min-h-[32rem] sm:py-32 lg:py-36"
     >
       <div className="pointer-events-none absolute inset-0 z-0 min-h-full" aria-hidden>
         <SilkBackground />
       </div>
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-night/40" aria-hidden />
 
       <div className="relative z-10 mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-start lg:gap-20">

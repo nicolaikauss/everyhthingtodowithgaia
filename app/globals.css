@@ -36,6 +36,11 @@ body {
   @apply bg-night text-ink antialiased;
 }
 
+/* Hide Next.js dev-tools portal in development overlays. */
+nextjs-portal {
+  display: none !important;
+}
+
 /* Skip layout/paint for long sections until near viewport (pairs with Silk pause + scroll rAF) */
 #why-gaia,
 #contact {

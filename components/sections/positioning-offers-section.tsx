@@ -3,6 +3,7 @@
 /**
  * Horizontal scrub of positioning panels over a sticky lobby still.
  * Uses `iphone-scrub` overscroll containment and `visualViewport` for stable range math on iOS.
+ * Track height is computed from horizontal travel + viewport so mobile range stays positive.
  */
 
 import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
@@ -63,39 +64,73 @@ export function PositioningOffersSection() {
     frame.style.transform = `translate3d(-${p * maxX}px, 0, 0)`;
   }, []);
 
-  useLayoutEffect(() => {
-    reduceMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    applyScroll();
-  }, [applyScroll]);
-
-  useEffect(() => {
-    if (reduceMotionRef.current) {
+  const updateTrackHeight = useCallback(() => {
+    const track = trackRef.current;
+    const frame = frameRef.current;
+    if (!track || !frame) {
       return;
     }
-    let raf = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(applyScroll);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    window.visualViewport?.addEventListener("resize", onScroll);
+    if (reduceMotionRef.current) {
+      track.style.height = "";
+      return;
+    }
+    const vw = readViewportWidth();
+    const vh = readViewportHeight();
+    const horizontalTravel = Math.max(0, frame.scrollWidth - vw);
+    track.style.height = `${Math.round(horizontalTravel + vh)}px`;
+  }, []);
+
+  const layoutRefresh = useCallback(() => {
+    updateTrackHeight();
     applyScroll();
+  }, [updateTrackHeight, applyScroll]);
+
+  useLayoutEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncMq = () => {
+      reduceMotionRef.current = mq.matches;
+      layoutRefresh();
+    };
+    syncMq();
+    mq.addEventListener("change", syncMq);
+    return () => mq.removeEventListener("change", syncMq);
+  }, [layoutRefresh]);
+
+  useEffect(() => {
+    let raf = 0;
+    const schedule = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(layoutRefresh);
+    };
+
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    window.visualViewport?.addEventListener("resize", schedule);
+    window.addEventListener("orientationchange", schedule);
+    window.addEventListener("pageshow", schedule);
+    window.addEventListener("load", schedule);
+
+    if ("fonts" in document) {
+      void document.fonts.ready.then(schedule);
+    }
+
+    schedule();
+
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      window.visualViewport?.removeEventListener("resize", onScroll);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      window.visualViewport?.removeEventListener("resize", schedule);
+      window.removeEventListener("orientationchange", schedule);
+      window.removeEventListener("pageshow", schedule);
+      window.removeEventListener("load", schedule);
     };
-  }, [applyScroll]);
+  }, [layoutRefresh]);
 
   return (
     <section id="positioning" className="relative w-full bg-black" aria-labelledby="positioning-heading">
-      <div
-        ref={trackRef}
-        className="iphone-scrub sentosa-offers-track relative z-10 h-[min(118vw,230svh)] w-full"
-      >
-        <div className="sentosa-offers-camera sticky top-0 h-[100dvh] min-h-[100svh] w-full overflow-hidden bg-black">
+      <div ref={trackRef} className="iphone-scrub sentosa-offers-track relative z-10 w-full">
+        <div className="sentosa-offers-camera sticky top-0 h-[100svh] w-full overflow-hidden bg-black">
           <h2 id="positioning-heading" className="sr-only">
             {positioningIntroCopy.srHeading}
           </h2>

@@ -8,7 +8,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Gaia Capital",
-  description: "Private strategic advisory and long-term capital perspective."
+  description: "Private strategic advisory and long-term capital perspective.",
+  icons: {
+    icon: "/brand/gaia-capital-mark-dark.png",
+    shortcut: "/brand/gaia-capital-mark-dark.png",
+    apple: "/brand/gaia-capital-mark-dark.png"
+  }
 };
 
 export default function RootLayout({

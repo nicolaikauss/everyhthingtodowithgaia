@@ -317,9 +317,11 @@ export function PositioningOffersSection() {
                     <h3 className="font-serif text-[clamp(1.75rem,4.2vw,3rem)] font-normal leading-[1.05] tracking-[-0.02em] text-ink transition-colors duration-700 ease-out group-hover:text-ink/[0.92]">
                       {splitTitle(item.title)}
                     </h3>
-                    <p className="font-sans text-sm leading-[1.75] text-ink/68 sm:text-[0.9375rem] sm:leading-[1.8] transition-colors duration-700 ease-out group-hover:text-ink/74">
-                      {item.text}
-                    </p>
+                    {item.text ? (
+                      <p className="font-sans text-sm leading-[1.75] text-ink/68 sm:text-[0.9375rem] sm:leading-[1.8] transition-colors duration-700 ease-out group-hover:text-ink/74">
+                        {item.text}
+                      </p>
+                    ) : null}
                   </div>
                 </article>
               </div>

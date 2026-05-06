@@ -410,9 +410,8 @@ export const positioningOffers = z
   .parse([
     {
       num: "01",
-      title: "How we\noperate",
-      text:
-        "Execution-led and long-term: we deploy capital and build systems — not slide decks. Judgment, process, and accountability stay in the same room."
+      title: "Activity\nsectors",
+      text: ""
     },
     {
       num: "02",

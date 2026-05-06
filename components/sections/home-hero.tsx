@@ -8,6 +8,7 @@
 import { useLayoutEffect, useRef } from "react";
 
 import { ButtonLink } from "@/components/ui/button";
+import AnimatedTextCycle from "@/components/ui/animated-text-cycle";
 import { homeCopy } from "@/lib/site-content";
 
 /** @deprecated Import from `@/lib/site-content` — kept for backward-compatible imports from this module. */
@@ -152,8 +153,16 @@ export function HomeHero() {
               <p className="mb-7 text-xs uppercase tracking-[0.2em] text-ink/64 sm:text-[0.78rem]">
                 {homeCopy.heroEyebrow}
               </p>
-              <h1 className="mx-auto max-w-[12ch] text-center font-serif text-5xl leading-[0.94] text-ink sm:text-6xl md:text-7xl lg:text-[5.4rem]">
-                {homeCopy.heroHeadline}
+              <h1 className="mx-auto max-w-[16ch] text-center font-serif text-[2rem] leading-[1] text-ink sm:text-[2.8rem] md:text-[3.6rem] lg:text-[4.1rem]">
+                <span className="block">We invest in</span>
+                <span className="mt-1 block sm:mt-2">
+                  <AnimatedTextCycle
+                    words={["Discipline", "Vision", "Precision"]}
+                    interval={2600}
+                    className="font-semibold text-ink"
+                  />
+                  <span className="ml-1 inline-block align-baseline">.</span>
+                </span>
               </h1>
               <div className="mt-12 flex flex-wrap items-center justify-center gap-8 sm:mt-14">
                 <ButtonLink href={homeCopy.heroPrimaryCta.href} variant="ghost">

@@ -57,7 +57,19 @@ export function Navbar() {
 
   useEffect(() => {
     const onScroll = () => {
-      setIsScrolled(window.scrollY > 16);
+      if (pathname !== "/") {
+        setIsScrolled(window.scrollY > 16);
+        return;
+      }
+
+      const hero = document.querySelector<HTMLElement>("section.hero-surface");
+      if (!hero) {
+        setIsScrolled(window.scrollY > 16);
+        return;
+      }
+
+      const heroBottom = hero.offsetTop + hero.offsetHeight;
+      setIsScrolled(window.scrollY >= heroBottom - 88);
     };
 
     onScroll();
@@ -67,7 +79,7 @@ export function Navbar() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (!isMobileOpen) {

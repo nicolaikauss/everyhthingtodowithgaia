@@ -48,7 +48,7 @@ export default function AnimatedTextCycle({ words, interval = 5000, className = 
       filter: "blur(0px)",
       transition: {
         duration: 0.4,
-        ease: "easeOut"
+        ease: [0.22, 1, 0.36, 1] as const
       }
     },
     exit: {
@@ -57,7 +57,7 @@ export default function AnimatedTextCycle({ words, interval = 5000, className = 
       filter: "blur(8px)",
       transition: {
         duration: 0.3,
-        ease: "easeIn"
+        ease: [0.64, 0, 0.78, 0] as const
       }
     }
   };

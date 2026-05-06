@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 
-import { positioningIntroCopy, positioningOffers } from "@/lib/site-content";
+import { positioningOffers } from "@/lib/site-content";
 
 /** Lobby still from `section_ambiances_architecturales.html` (Le Lobby / render_53) — extracted to public */
 export const POSITIONING_LOBBY_BG = "/positioning-lobby-bg.jpg";
@@ -266,7 +266,7 @@ export function PositioningOffersSection() {
       <div ref={trackRef} className="iphone-scrub sentosa-offers-track relative z-10 w-full">
         <div className="sentosa-offers-camera sticky top-0 h-[100svh] w-full overflow-hidden bg-black">
           <h2 id="positioning-heading" className="sr-only">
-            {positioningIntroCopy.srHeading}
+            Positioning and offerings
           </h2>
 
           <div className="pointer-events-none absolute inset-0 overflow-hidden bg-black" aria-hidden>
@@ -304,20 +304,6 @@ export function PositioningOffersSection() {
             ref={frameRef}
             className="sentosa-offers-frame relative flex h-full w-max max-w-none items-stretch"
           >
-            <div className="sentosa-offers-panel flex h-full w-[min(92vw,520px)] flex-none items-center justify-end pr-6 pt-16 sm:w-[min(88vw,560px)] sm:pr-10 sm:pt-20 md:w-[56vw] md:pr-14 lg:pr-20">
-              <div className="w-full max-w-[400px] space-y-6 text-left">
-                <p className="font-sans text-[0.68rem] uppercase tracking-[0.18em] text-ink/50">
-                  {positioningIntroCopy.eyebrow}
-                </p>
-                <p className="font-serif text-2xl leading-snug text-ink/90 sm:text-[1.65rem] sm:leading-tight">
-                  {positioningIntroCopy.title}
-                </p>
-                <p className="font-sans text-sm leading-[1.75] text-ink/68 sm:text-[0.9375rem]">
-                  {positioningIntroCopy.body}
-                </p>
-              </div>
-            </div>
-
             {positioningOffers.map((item) => (
               <div
                 key={item.num}

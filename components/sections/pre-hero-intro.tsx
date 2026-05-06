@@ -20,7 +20,7 @@ type PreHeroIntroProps = {
 
 const MIN_INTRO_MS = 1400;
 const MAX_READY_WAIT_MS = 2800;
-const EXIT_MS = 420;
+const EXIT_MS = 680;
 
 function wait(ms: number) {
   return new Promise<void>((resolve) => {
@@ -79,7 +79,7 @@ export function PreHeroIntro({
     }
 
     if (phase === "exiting") {
-      return "opacity-0 scale-[1.005] -translate-y-1";
+      return "opacity-0 scale-[1.01] -translate-y-2";
     }
 
     return "opacity-0 scale-100 translate-y-0 pointer-events-none";
@@ -140,7 +140,7 @@ export function PreHeroIntro({
         if (!cancelled) {
           setPhase("hidden");
         }
-      }, EXIT_MS);
+      }, EXIT_MS + 60);
     };
 
     void run();
@@ -157,7 +157,7 @@ export function PreHeroIntro({
   return (
     <div
       aria-hidden
-      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#050608] pl-safe-l pr-safe-r pt-safe-t pb-safe-b transition-all duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${overlayClass}`}
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#050608] pl-safe-l pr-safe-r pt-safe-t pb-safe-b transition-all duration-[680ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${overlayClass}`}
     >
       <div className="pointer-events-none flex flex-col items-center gap-5">
         <span className="h-px w-16 bg-white/20" aria-hidden />

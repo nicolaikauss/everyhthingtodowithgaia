@@ -410,27 +410,27 @@ export const positioningOffers = z
   .parse([
     {
       num: "01",
+      title: "How we\noperate",
+      text:
+        "Execution-led and long-term: we deploy capital and build systems — not slide decks. Judgment, process, and accountability stay in the same room."
+    },
+    {
+      num: "02",
       title: "Real\nestate",
       text:
         "Investment and ownership across real assets — acquisitions, repositioning, and portfolio discipline grounded in long-term value."
     },
     {
-      num: "02",
+      num: "03",
       title: "Financing",
       text:
         "Capital structuring and funding strategies aligned with risk, governance, and the timeline of the underlying opportunity."
     },
     {
-      num: "03",
+      num: "04",
       title: "Private\nEquity",
       text:
         "Technology-focused investment with operational support — built to help products and platforms scale with discipline."
-    },
-    {
-      num: "04",
-      title: "How we\noperate",
-      text:
-        "Execution-led and long-term: we deploy capital and build systems — not slide decks. Judgment, process, and accountability stay in the same room."
     }
   ]);
 

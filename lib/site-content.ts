@@ -88,10 +88,10 @@ export const sectors: Sector[] = sectorSchema.array().parse([
   {
     num: "03",
     slug: "gaia-labs",
-    name: "Gaia Labs",
+    name: "Private Equity",
     tag: "Subsidiary · Technology",
     lede:
-      "Separate subsidiary. Technology and digital product development under its own mandate — tools, products, and systems built for speed and precision.",
+      "Gaia Capital invests in technology and supports long-term product growth through disciplined private equity execution.",
     capabilities: [...capabilitiesByEntity.labs],
     subsidiary: true,
     logoSrc: brandAssets.labsMarkLight
@@ -116,6 +116,21 @@ export type BentoSeedItem = {
   hasPersistentHover?: boolean;
   logoSrc?: string;
 };
+
+const realEstateSpotlightSchema = z.object({
+  slug: z.string(),
+  title: z.string(),
+  location: z.string(),
+  closeDate: z.string(),
+  summary: z.string(),
+  narrative: z.string(),
+  cta: z.string(),
+  href: z.string(),
+  imageSrc: z.string().optional(),
+  externalReferenceHref: z.string().optional()
+});
+
+export type RealEstateSpotlight = z.infer<typeof realEstateSpotlightSchema>;
 
 function sectorBySlug(slug: string): Sector {
   const s = sectors.find((x) => x.slug === slug);
@@ -163,7 +178,7 @@ export const portfolioBentoSeeds: BentoSeedItem[] = (() => {
       description: labs.lede,
       iconKey: "sparkles",
       meta: labs.num,
-      status: "Subsidiary",
+      status: "Private Equity",
       tags: [...labs.capabilities],
       logoSrc: labs.logoSrc,
       cta: "Learn more",
@@ -173,6 +188,38 @@ export const portfolioBentoSeeds: BentoSeedItem[] = (() => {
     }
   ];
 })();
+
+export const realEstateSpotlights: RealEstateSpotlight[] = realEstateSpotlightSchema.array().parse([
+  {
+    slug: "paris-rive-gauche-mixed-use",
+    title: "Paris Rive Gauche mixed-use acquisition",
+    location: "Paris, France",
+    closeDate: "Closed Q2 2026",
+    summary:
+      "Landmark mixed-use asset in Paris with long-term repositioning potential and high-conviction tenancy fundamentals.",
+    narrative:
+      "Gaia Capital led acquisition strategy, financing alignment, and post-close execution planning. The mandate focuses on disciplined value creation through operational upgrades, tenant quality, and resilient long-term cash flow.",
+    cta: "View transaction brief",
+    href: "/portfolio/real-estate/paris-rive-gauche-mixed-use",
+    imageSrc:
+      "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=1800&q=80",
+    externalReferenceHref: "https://www.paris.fr/"
+  },
+  {
+    slug: "ile-de-france-logistics-campus",
+    title: "Ile-de-France logistics campus",
+    location: "Ile-de-France, France",
+    closeDate: "Closed Q4 2025",
+    summary:
+      "Strategic logistics platform positioned on last-mile corridors with phased modernization and rental uplift potential.",
+    narrative:
+      "The investment thesis combines infrastructure-adjacent positioning with targeted capex and disciplined lease management. Gaia Capital is executing a phased operating plan designed to improve occupancy quality and downside resilience.",
+    cta: "Open asset overview",
+    href: "/portfolio/real-estate/ile-de-france-logistics-campus",
+    imageSrc:
+      "https://images.unsplash.com/photo-1473445361085-b9a07f55608b?auto=format&fit=crop&w=1800&q=80"
+  }
+]);
 
 export const homeCopy = z
   .object({
@@ -189,7 +236,7 @@ export const homeCopy = z
     heroEyebrow: "Real estate · Financing · Technology",
     heroHeadline: "Where capital gets built.",
     heroSub:
-      "Gaia Capital invests in real estate and financing. Gaia Labs, a separate subsidiary, builds technology — three sectors, one parent firm.",
+      "Gaia Capital invests in real estate, financing, and technology — three sectors, one parent firm.",
     heroPrimaryCta: { label: "View portfolio", href: "/portfolio" },
     heroSecondaryCta: { label: "Begin a conversation", href: "/#contact" },
     heroImage:
@@ -211,7 +258,7 @@ export const portfolioCopy = z
     eyebrow: "02 — Portfolio",
     title: "Three sectors of activity",
     lede:
-      "Real estate and financing under Gaia Capital. Technology and digital products under Gaia Labs, a separate subsidiary. One parent firm."
+      "Real estate and financing under Gaia Capital. Private Equity focuses on technology and digital products under one parent firm."
   });
 
 export const aboutCopy = z
@@ -348,7 +395,7 @@ export const positioningIntroCopy = z
     eyebrow: "Positioning",
     title: "Real estate, financing, and technology — one parent firm.",
     body:
-      "Gaia Capital holds real estate and financing. Gaia Labs is a separate subsidiary focused on technology and digital products — parallel mandates, clear structure."
+      "Gaia Capital holds real estate and financing. Private Equity invests in technology with clear structure and accountability."
   });
 
 /** Horizontal scrub section — four panels; layout unchanged in component */
@@ -375,9 +422,9 @@ export const positioningOffers = z
     },
     {
       num: "03",
-      title: "Gaia\nLabs",
+      title: "Private\nEquity",
       text:
-        "A separate subsidiary focused on technology — digital tools, products, and internal systems. Distinct mandate; same parent firm."
+        "Technology-focused investment with operational support — built to help products and platforms scale with discipline."
     },
     {
       num: "04",

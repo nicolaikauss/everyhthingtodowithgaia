@@ -34,9 +34,9 @@ function paintFrame(
   const { width, height } = canvas;
 
   const gradient = ctx.createLinearGradient(0, 0, width, height);
-  gradient.addColorStop(0, "#0c0f13");
-  gradient.addColorStop(0.5, "#11151a");
-  gradient.addColorStop(1, "#0c0f13");
+  gradient.addColorStop(0, "#1a2330");
+  gradient.addColorStop(0.5, "#253244");
+  gradient.addColorStop(1, "#1a2330");
 
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, width, height);
@@ -101,8 +101,8 @@ function paintFrame(
     height / 2,
     Math.max(width, height) / 2
   );
-  overlayGradient.addColorStop(0, "rgba(5, 7, 10, 0.5)");
-  overlayGradient.addColorStop(1, "rgba(5, 7, 10, 0.84)");
+  overlayGradient.addColorStop(0, "rgba(18, 24, 33, 0.34)");
+  overlayGradient.addColorStop(1, "rgba(18, 24, 33, 0.58)");
 
   ctx.fillStyle = overlayGradient;
   ctx.fillRect(0, 0, width, height);

@@ -123,7 +123,7 @@ export function HomeHero() {
       <div className="sticky top-0 h-[100svh] min-h-[100svh] overflow-hidden">
         <div className="pointer-events-none absolute inset-0 bg-black" aria-hidden />
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_80%_at_50%_36%,rgba(245,242,237,0.09)_0%,transparent_58%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_80%_at_50%_36%,rgba(250,248,244,0.14)_0%,transparent_58%)]"
           aria-hidden
         />
 
@@ -138,7 +138,7 @@ export function HomeHero() {
         </div>
 
         <div
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(6,8,11,0.74)_0%,rgba(7,9,12,0.64)_45%,rgba(7,9,12,0.9)_100%)]"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(18,24,33,0.54)_0%,rgba(18,24,33,0.46)_45%,rgba(18,24,33,0.74)_100%)]"
           aria-hidden
         />
         <div className="hero-grid pointer-events-none absolute inset-0 opacity-24" aria-hidden />
@@ -155,10 +155,7 @@ export function HomeHero() {
               <h1 className="mx-auto max-w-[12ch] text-center font-serif text-5xl leading-[0.94] text-ink sm:text-6xl md:text-7xl lg:text-[5.4rem]">
                 {homeCopy.heroHeadline}
               </h1>
-              <p className="mx-auto mt-8 max-w-[50ch] text-center text-sm leading-relaxed text-ink/80 sm:text-base">
-                {homeCopy.heroSub}
-              </p>
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-8">
+              <div className="mt-12 flex flex-wrap items-center justify-center gap-8 sm:mt-14">
                 <ButtonLink href={homeCopy.heroPrimaryCta.href} variant="ghost">
                   {homeCopy.heroPrimaryCta.label}
                 </ButtonLink>

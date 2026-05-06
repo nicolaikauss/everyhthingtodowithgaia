@@ -35,7 +35,7 @@ export function BentoGrid({ items, className }: BentoGridProps) {
             <div
               className={cn(
                 "pointer-events-none absolute inset-0 transition-opacity duration-500",
-                "bg-[radial-gradient(circle_at_center,rgba(245,242,237,0.04)_1px,transparent_1px)] bg-[length:5px_5px]",
+                "bg-[radial-gradient(circle_at_center,rgba(250,248,244,0.07)_1px,transparent_1px)] bg-[length:5px_5px]",
                 item.hasPersistentHover ? "opacity-100" : "opacity-0 group-hover:opacity-100"
               )}
               aria-hidden
@@ -43,11 +43,11 @@ export function BentoGrid({ items, className }: BentoGridProps) {
 
             <div className="relative flex min-h-[44px] flex-col gap-5">
               <div className="flex items-center justify-between gap-3">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-ink/8 text-ink/72">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-ink/12 text-ink/84">
                   <Icon className="h-4 w-4" aria-hidden />
                 </span>
                 {item.status ? (
-                  <span className="rounded-md bg-ink/8 px-2 py-1 text-[0.62rem] uppercase tracking-[0.16em] text-ink/55">
+                  <span className="rounded-md bg-ink/12 px-2 py-1 text-[0.62rem] uppercase tracking-[0.16em] text-ink/72">
                     {item.status}
                   </span>
                 ) : null}
@@ -63,12 +63,12 @@ export function BentoGrid({ items, className }: BentoGridProps) {
                 <h3 className="font-serif text-2xl leading-tight tracking-tight text-ink sm:text-[1.6rem]">
                   {item.title}
                   {item.meta ? (
-                    <span className="ml-3 font-sans text-[0.65rem] uppercase tracking-[0.16em] text-ink/40">
+                    <span className="ml-3 font-sans text-[0.65rem] uppercase tracking-[0.16em] text-ink/58">
                       {item.meta}
                     </span>
                   ) : null}
                 </h3>
-                <p className="max-w-[56ch] text-sm leading-relaxed text-ink/72 sm:text-[0.9375rem]">
+                <p className="max-w-[56ch] text-sm leading-relaxed text-ink/82 sm:text-[0.9375rem]">
                   {item.description}
                 </p>
               </div>
@@ -79,7 +79,7 @@ export function BentoGrid({ items, className }: BentoGridProps) {
                     {item.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-md bg-ink/8 px-2 py-1 text-[0.62rem] uppercase tracking-[0.14em] text-ink/55"
+                        className="rounded-md bg-ink/12 px-2 py-1 text-[0.62rem] uppercase tracking-[0.14em] text-ink/72"
                       >
                         {tag}
                       </span>
@@ -88,7 +88,7 @@ export function BentoGrid({ items, className }: BentoGridProps) {
                 ) : (
                   <span />
                 )}
-                <span className="text-[0.62rem] uppercase tracking-[0.14em] text-ink/45 opacity-0 transition-opacity group-hover:opacity-100 motion-reduce:opacity-100 motion-reduce:group-hover:opacity-100">
+                <span className="text-[0.62rem] uppercase tracking-[0.14em] text-ink/60 opacity-0 transition-opacity group-hover:opacity-100 motion-reduce:opacity-100 motion-reduce:group-hover:opacity-100">
                   {item.cta ?? "Explore"}
                 </span>
               </div>
@@ -96,7 +96,7 @@ export function BentoGrid({ items, className }: BentoGridProps) {
 
             <div
               className={cn(
-                "pointer-events-none absolute inset-0 -z-10 rounded-[14px] bg-gradient-to-br from-transparent via-white/[0.06] to-transparent p-px opacity-0 transition-opacity duration-300",
+                "pointer-events-none absolute inset-0 -z-10 rounded-[14px] bg-gradient-to-br from-transparent via-white/[0.1] to-transparent p-px opacity-0 transition-opacity duration-300",
                 item.hasPersistentHover ? "opacity-100" : "group-hover:opacity-100"
               )}
               aria-hidden
@@ -105,12 +105,12 @@ export function BentoGrid({ items, className }: BentoGridProps) {
         );
 
         const shellClass = cn(
-          "group relative block min-h-[44px] overflow-hidden rounded-[14px] border border-ink/14 bg-night/55 p-7 shadow-bento sm:p-9",
+          "group relative block min-h-[44px] overflow-hidden rounded-[14px] border border-ink/18 bg-night/72 p-7 shadow-bento sm:p-9",
           "transition-[transform,border-color,background-color,box-shadow] duration-300 motion-reduce:transition-none",
-          "hover:-translate-y-0.5 hover:border-ink/22 hover:bg-night/65 motion-reduce:hover:translate-y-0",
+          "hover:-translate-y-0.5 hover:border-ink/28 hover:bg-night/78 motion-reduce:hover:translate-y-0",
           item.colSpan === 2 && "md:col-span-2",
           item.colSpan === 3 && "md:col-span-3",
-          item.hasPersistentHover && "border-ink/22 bg-night/65"
+          item.hasPersistentHover && "border-ink/28 bg-night/78"
         );
 
         if (!item.href) {

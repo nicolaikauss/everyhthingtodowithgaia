@@ -41,26 +41,134 @@ export function PositioningOffersSection() {
   const trackRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const reduceMotionRef = useRef(false);
+  const applyScrollSampleRef = useRef(0);
+  const healthyApplyLoggedRef = useRef(false);
 
   const applyScroll = useCallback(() => {
+    // #region agent log
     if (reduceMotionRef.current) {
+      fetch("http://127.0.0.1:7704/ingest/c525ad29-80b5-433a-89d4-3c2ad67c5159", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "b335d7" },
+        body: JSON.stringify({
+          sessionId: "b335d7",
+          runId: "pre-fix",
+          hypothesisId: "H2",
+          location: "positioning-offers-section.tsx:applyScroll",
+          message: "applyScroll skipped: prefers-reduced-motion",
+          data: {},
+          timestamp: Date.now()
+        })
+      }).catch(() => {});
       return;
     }
+    // #endregion
     const track = trackRef.current;
     const frame = frameRef.current;
     if (!track || !frame) {
+      // #region agent log
+      fetch("http://127.0.0.1:7704/ingest/c525ad29-80b5-433a-89d4-3c2ad67c5159", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "b335d7" },
+        body: JSON.stringify({
+          sessionId: "b335d7",
+          runId: "pre-fix",
+          hypothesisId: "H5",
+          location: "positioning-offers-section.tsx:applyScroll",
+          message: "applyScroll skipped: missing refs",
+          data: { hasTrack: !!track, hasFrame: !!frame },
+          timestamp: Date.now()
+        })
+      }).catch(() => {});
+      // #endregion
       return;
     }
     const rect = track.getBoundingClientRect();
     const vh = readViewportHeight();
     const range = track.offsetHeight - vh;
     if (range <= 0) {
+      // #region agent log
+      fetch("http://127.0.0.1:7704/ingest/c525ad29-80b5-433a-89d4-3c2ad67c5159", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "b335d7" },
+        body: JSON.stringify({
+          sessionId: "b335d7",
+          runId: "pre-fix",
+          hypothesisId: "H3",
+          location: "positioning-offers-section.tsx:applyScroll",
+          message: "range<=0 scrub noop",
+          data: {
+            trackOffsetH: track.offsetHeight,
+            vh,
+            range,
+            rectTop: rect.top,
+            scrollW: frame.scrollWidth,
+            innerH: typeof window !== "undefined" ? window.innerHeight : null,
+            vvH: typeof window !== "undefined" ? window.visualViewport?.height ?? null : null
+          },
+          timestamp: Date.now()
+        })
+      }).catch(() => {});
+      // #endregion
       frame.style.transform = "translate3d(0,0,0)";
       return;
     }
     const p = Math.min(1, Math.max(0, -rect.top / range));
     const vw = readViewportWidth();
     const maxX = Math.max(0, frame.scrollWidth - vw);
+    if (!healthyApplyLoggedRef.current) {
+      healthyApplyLoggedRef.current = true;
+      // #region agent log
+      fetch("http://127.0.0.1:7704/ingest/c525ad29-80b5-433a-89d4-3c2ad67c5159", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "b335d7" },
+        body: JSON.stringify({
+          sessionId: "b335d7",
+          runId: "pre-fix",
+          hypothesisId: "H4",
+          location: "positioning-offers-section.tsx:applyScroll",
+          message: "first healthy applyScroll (range>0)",
+          data: { p, range, maxX, rectTop: rect.top, vw, vh, scrollW: frame.scrollWidth, trackH: track.offsetHeight },
+          timestamp: Date.now()
+        })
+      }).catch(() => {});
+      // #endregion
+    }
+    applyScrollSampleRef.current += 1;
+    if (applyScrollSampleRef.current % 10 === 0) {
+      // #region agent log
+      fetch("http://127.0.0.1:7704/ingest/c525ad29-80b5-433a-89d4-3c2ad67c5159", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "b335d7" },
+        body: JSON.stringify({
+          sessionId: "b335d7",
+          runId: "pre-fix",
+          hypothesisId: "H4",
+          location: "positioning-offers-section.tsx:applyScroll",
+          message: "applyScroll sample",
+          data: { p, range, maxX, rectTop: rect.top, vw, vh, scrollW: frame.scrollWidth },
+          timestamp: Date.now()
+        })
+      }).catch(() => {});
+      // #endregion
+    }
+    if (maxX === 0 && p > 0.01) {
+      // #region agent log
+      fetch("http://127.0.0.1:7704/ingest/c525ad29-80b5-433a-89d4-3c2ad67c5159", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "b335d7" },
+        body: JSON.stringify({
+          sessionId: "b335d7",
+          runId: "pre-fix",
+          hypothesisId: "H4",
+          location: "positioning-offers-section.tsx:applyScroll",
+          message: "maxX zero but p>0",
+          data: { p, scrollW: frame.scrollWidth, vw },
+          timestamp: Date.now()
+        })
+      }).catch(() => {});
+      // #endregion
+    }
     frame.style.transform = `translate3d(-${p * maxX}px, 0, 0)`;
   }, []);
 
@@ -77,7 +185,31 @@ export function PositioningOffersSection() {
     const vw = readViewportWidth();
     const vh = readViewportHeight();
     const horizontalTravel = Math.max(0, frame.scrollWidth - vw);
-    track.style.height = `${Math.round(horizontalTravel + vh)}px`;
+    const heightPx = Math.round(horizontalTravel + vh);
+    track.style.height = `${heightPx}px`;
+    // #region agent log
+    fetch("http://127.0.0.1:7704/ingest/c525ad29-80b5-433a-89d4-3c2ad67c5159", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "b335d7" },
+      body: JSON.stringify({
+        sessionId: "b335d7",
+        runId: "pre-fix",
+        hypothesisId: "H1",
+        location: "positioning-offers-section.tsx:updateTrackHeight",
+        message: "track height set",
+        data: {
+          vw,
+          vh,
+          scrollW: frame.scrollWidth,
+          horizontalTravel,
+          heightPx,
+          innerW: typeof window !== "undefined" ? window.innerWidth : null,
+          vvW: typeof window !== "undefined" ? window.visualViewport?.width ?? null : null
+        },
+        timestamp: Date.now()
+      })
+    }).catch(() => {});
+    // #endregion
   }, []);
 
   const layoutRefresh = useCallback(() => {
@@ -106,6 +238,7 @@ export function PositioningOffersSection() {
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
     window.visualViewport?.addEventListener("resize", schedule);
+    window.visualViewport?.addEventListener("scroll", schedule);
     window.addEventListener("orientationchange", schedule);
     window.addEventListener("pageshow", schedule);
     window.addEventListener("load", schedule);
@@ -121,6 +254,7 @@ export function PositioningOffersSection() {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       window.visualViewport?.removeEventListener("resize", schedule);
+      window.visualViewport?.removeEventListener("scroll", schedule);
       window.removeEventListener("orientationchange", schedule);
       window.removeEventListener("pageshow", schedule);
       window.removeEventListener("load", schedule);

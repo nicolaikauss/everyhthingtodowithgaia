@@ -102,7 +102,7 @@ export function Navbar() {
       className={cn(
         "fixed inset-x-0 top-0 z-40 border-b transition-[border-color,background-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
         isScrolled
-          ? "border-white/10 bg-night/45 backdrop-blur-xl supports-[backdrop-filter]:bg-night/[0.38]"
+          ? "border-white/10 bg-night/62 backdrop-blur-xl supports-[backdrop-filter]:bg-night/[0.56]"
           : "border-transparent bg-transparent"
       )}
     >
@@ -204,7 +204,7 @@ export function Navbar() {
       <div
         id="site-mobile-nav"
         className={cn(
-          "overflow-hidden border-t border-white/10 bg-night/92 backdrop-blur-xl transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none md:hidden",
+          "overflow-hidden border-t border-white/10 bg-night/88 backdrop-blur-xl transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none md:hidden",
           isMobileOpen ? "max-h-[28rem] opacity-100" : "max-h-0 opacity-0"
         )}
       >

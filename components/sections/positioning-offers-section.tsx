@@ -9,6 +9,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 
 import { positioningOffers } from "@/lib/site-content";
+import { cn } from "@/lib/utils";
 
 /** Lobby still from `section_ambiances_architecturales.html` (Le Lobby / render_53) — extracted to public */
 export const POSITIONING_LOBBY_BG = "/positioning-lobby-bg.jpg";
@@ -304,12 +305,15 @@ export function PositioningOffersSection() {
             ref={frameRef}
             className="sentosa-offers-frame relative flex h-full w-max max-w-none items-stretch"
           >
-            {positioningOffers.map((item) => (
+            {positioningOffers.map((item, index) => (
               <div
                 key={item.num}
-                className="sentosa-offers-panel flex h-full w-[min(92vw,520px)] flex-none items-center justify-end pr-6 sm:w-[min(88vw,600px)] sm:pr-10 md:w-[56vw] md:pr-14 lg:pr-20"
+                className={cn(
+                  "sentosa-offers-panel flex h-full w-[min(92vw,520px)] flex-none items-center pr-6 sm:w-[min(88vw,600px)] sm:pr-10 md:w-[56vw] md:pr-14 lg:pr-20",
+                  index === 0 ? "justify-end md:justify-center" : "justify-end"
+                )}
               >
-                <article className="group w-full max-w-[400px]">
+                <article className={cn("group w-full max-w-[400px]", index === 0 ? "md:max-w-[430px]" : "")}>
                   <div className="flex flex-col gap-7 sm:gap-8">
                     <span className="font-sans text-[0.65rem] uppercase tracking-[0.22em] text-ink/38 transition-colors duration-700 ease-out group-hover:text-ink/50">
                       {item.num}

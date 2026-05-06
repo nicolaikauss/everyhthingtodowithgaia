@@ -307,18 +307,27 @@ export function PositioningOffersSection() {
           >
             {positioningOffers.map((item, index) => (
               <div
-                key={item.num}
+                key={`${index}-${item.num}`}
                 className={cn(
                   "sentosa-offers-panel flex h-full w-[min(92vw,520px)] flex-none items-center pr-6 sm:w-[min(88vw,600px)] sm:pr-10 md:w-[56vw] md:pr-14 lg:pr-20",
                   index === 0 ? "justify-end md:justify-center" : "justify-end"
                 )}
               >
-                <article className={cn("group w-full max-w-[400px]", index === 0 ? "md:max-w-[430px]" : "")}>
-                  <div className="flex flex-col gap-7 sm:gap-8">
-                    <span className="font-sans text-[0.65rem] uppercase tracking-[0.22em] text-ink/38 transition-colors duration-700 ease-out group-hover:text-ink/50">
-                      {item.num}
-                    </span>
-                    <h3 className="font-serif text-[clamp(1.75rem,4.2vw,3rem)] font-normal leading-[1.05] tracking-[-0.02em] text-ink transition-colors duration-700 ease-out group-hover:text-ink/[0.92]">
+                <article className={cn("group w-full max-w-[400px]", index === 0 ? "md:max-w-[500px]" : "")}>
+                  <div className={cn("flex flex-col gap-7 sm:gap-8", index === 0 ? "justify-center gap-0" : "")}>
+                    {item.num ? (
+                      <span className="font-sans text-[0.65rem] uppercase tracking-[0.22em] text-ink/38 transition-colors duration-700 ease-out group-hover:text-ink/50">
+                        {item.num}
+                      </span>
+                    ) : null}
+                    <h3
+                      className={cn(
+                        "font-serif font-normal tracking-[-0.02em] text-ink transition-colors duration-700 ease-out group-hover:text-ink/[0.92]",
+                        index === 0
+                          ? "text-[clamp(2.6rem,7.2vw,5.4rem)] leading-[0.95]"
+                          : "text-[clamp(1.75rem,4.2vw,3rem)] leading-[1.05]"
+                      )}
+                    >
                       {splitTitle(item.title)}
                     </h3>
                     {item.text ? (

@@ -409,24 +409,24 @@ export const positioningOffers = z
   )
   .parse([
     {
-      num: "01",
+      num: "",
       title: "Activity\nsectors",
       text: ""
     },
     {
-      num: "02",
+      num: "01",
       title: "Real\nestate",
       text:
         "Investment and ownership across real assets — acquisitions, repositioning, and portfolio discipline grounded in long-term value."
     },
     {
-      num: "03",
+      num: "02",
       title: "Financing",
       text:
         "Capital structuring and funding strategies aligned with risk, governance, and the timeline of the underlying opportunity."
     },
     {
-      num: "04",
+      num: "03",
       title: "Private\nEquity",
       text:
         "Technology-focused investment with operational support — built to help products and platforms scale with discipline."

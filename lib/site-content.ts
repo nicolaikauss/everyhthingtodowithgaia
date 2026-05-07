@@ -450,9 +450,9 @@ export const differentiators = z
   .array(z.object({ headline: z.string(), text: z.string() }))
   .parse([
     {
-      headline: "Three sectors of activity",
+      headline: "Expertise",
       text:
-        "Real estate investment and asset repositioning, structuring and financing for acquisitions and growth, and technology built where it earns its place — three mandates under one parent firm."
+        "We operate only where we have expertise: real estate investment and asset repositioning, structuring and financing for acquisitions and growth, and technology built where it earns its place."
     },
     {
       headline: "Execution-driven",

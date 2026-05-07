@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface AnimatedTextCycleProps {
@@ -12,20 +12,9 @@ interface AnimatedTextCycleProps {
 
 export default function AnimatedTextCycle({ words, interval = 5000, className = "" }: AnimatedTextCycleProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [width, setWidth] = useState("auto");
-  const measureRef = useRef<HTMLDivElement>(null);
-
-  // Get the width of the current word
-  useEffect(() => {
-    if (measureRef.current) {
-      const elements = measureRef.current.children;
-      if (elements.length > currentIndex) {
-        // Add a small buffer (10px) to prevent text wrapping
-        const newWidth = elements[currentIndex].getBoundingClientRect().width;
-        setWidth(`${newWidth}px`);
-      }
-    }
-  }, [currentIndex]);
+  const longestWord = useMemo(() => {
+    return words.reduce((longest, word) => (word.length > longest.length ? word : longest), words[0] ?? "");
+  }, [words]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -63,34 +52,12 @@ export default function AnimatedTextCycle({ words, interval = 5000, className = 
   };
 
   return (
-    <>
-      {/* Hidden measurement div with all words rendered */}
-      <div
-        ref={measureRef}
-        aria-hidden="true"
-        className="absolute opacity-0 pointer-events-none"
-        style={{ visibility: "hidden" }}
-      >
-        {words.map((word, i) => (
-          <span key={i} className={`font-bold ${className}`}>
-            {word}
-          </span>
-        ))}
-      </div>
-
-      {/* Visible animated word */}
-      <motion.span
-        className="relative inline-block whitespace-nowrap align-baseline"
-        animate={{
-          width,
-          transition: {
-            type: "spring",
-            stiffness: 150,
-            damping: 15,
-            mass: 1.2
-          }
-        }}
-      >
+    <span className="relative inline-grid whitespace-nowrap align-baseline">
+      {/* Width anchor keeps all cycles the same visual movement. */}
+      <span aria-hidden="true" className={`invisible col-start-1 row-start-1 inline-block font-bold ${className}`}>
+        {longestWord}
+      </span>
+      <motion.span className="col-start-1 row-start-1 inline-block">
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
             key={currentIndex}
@@ -105,6 +72,6 @@ export default function AnimatedTextCycle({ words, interval = 5000, className = 
           </motion.span>
         </AnimatePresence>
       </motion.span>
-    </>
+    </span>
   );
 }

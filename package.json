@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "capture:stitch": "node scripts/capture-stitch-screenshots.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -27,6 +28,7 @@
     "eslint-config-next": "^16.2.4",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "playwright": "^1.52.0"
   }
 }
